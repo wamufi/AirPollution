@@ -3,6 +3,7 @@ package com.wamufi.airpollution
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -24,8 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var viewModel: DustyViewModel
-    private lateinit var viewModelFactory: AirKoreaViewModelFactory
+//    private lateinit var viewModelFactory: AirKoreaViewModelFactory
+//    private lateinit var viewModel: DustyViewModel
+    private val viewModel: DustyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,11 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModelFactory = AirKoreaViewModelFactory(AirKoreaRepository())
-        viewModel = ViewModelProvider(this, viewModelFactory)[DustyViewModel::class.java]
-
-        viewModel.realTimeInfo.observe(this) {
-            Log.v("viewmodel", it.toString())
-        }
+//        viewModelFactory = AirKoreaViewModelFactory(AirKoreaRepository())
+//        viewModel = ViewModelProvider(this, viewModelFactory)[DustyViewModel::class.java]
     }
 }

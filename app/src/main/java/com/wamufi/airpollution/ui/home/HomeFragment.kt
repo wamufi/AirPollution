@@ -1,13 +1,18 @@
 package com.wamufi.airpollution.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.wamufi.airpollution.MainActivity
 import com.wamufi.airpollution.databinding.FragmentHomeBinding
+import com.wamufi.airpollution.utils.Logger
+import com.wamufi.airpollution.viewmodels.DustyViewModel
 
 class HomeFragment : Fragment() {
 
@@ -17,21 +22,24 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val viewModel: DustyViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        viewModel.realTimeInfo.observe(viewLifecycleOwner) {
+            Logger.v(it.toString())
+            binding.dusty = it[0]
         }
+
         return root
     }
 
