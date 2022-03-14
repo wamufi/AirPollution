@@ -1,7 +1,6 @@
 package com.wamufi.airpollution
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
@@ -13,12 +12,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.wamufi.airpollution.databinding.ActivityMainBinding
-import com.wamufi.airpollution.repository.AirKoreaRepository
-import com.wamufi.airpollution.viewmodels.AirKoreaViewModelFactory
 import com.wamufi.airpollution.viewmodels.DustyViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +25,11 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var viewModelFactory: AirKoreaViewModelFactory
 //    private lateinit var viewModel: DustyViewModel
     private val viewModel: DustyViewModel by viewModels()
+
+    private val today: String get() {
+        val time = Calendar.getInstance().time
+        return SimpleDateFormat("yyyy-MM-dd").format(time)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         initViewModel()
 
-        val queryMap = mapOf("returnType" to "json", "stationName" to "종로구", "dataTerm" to "DAILY")
-        viewModel.getRealTimeInfo(queryMap)
+        getData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -74,5 +75,16 @@ class MainActivity : AppCompatActivity() {
     private fun initViewModel() {
 //        viewModelFactory = AirKoreaViewModelFactory(AirKoreaRepository())
 //        viewModel = ViewModelProvider(this, viewModelFactory)[DustyViewModel::class.java]
+    }
+
+    private fun getData() {
+        val realTimeMap = mapOf("returnType" to "json", "stationName" to "종로구", "dataTerm" to "DAILY")
+        viewModel.getRealTimeInfo(realTimeMap)
+
+        val forecastMap = mapOf("returnType" to "json", "searchDate" to today)
+        viewModel.getForecast(forecastMap)
+
+        val weekForecastMap = mapOf("returnType" to "json", "searchDate" to today)
+        viewModel.getWeekForecast(weekForecastMap)
     }
 }
