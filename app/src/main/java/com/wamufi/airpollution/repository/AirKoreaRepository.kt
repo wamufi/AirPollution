@@ -10,4 +10,6 @@ class AirKoreaRepository {
     suspend fun getForecast(queries: Map<String, String>) = client.getForecast(queries)
 
     suspend fun getWeekForecast(queries: Map<String, String>) = client.getWeekForecast(queries)
+
+    suspend fun getNearbyStationsList(queries: Map<String, String>) = client.getNearbyStationsList(queries)
 }

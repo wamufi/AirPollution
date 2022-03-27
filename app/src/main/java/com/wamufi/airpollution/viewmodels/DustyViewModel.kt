@@ -1,5 +1,6 @@
 package com.wamufi.airpollution.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,13 +14,13 @@ class DustyViewModel : ViewModel() {
     private val repository = AirKoreaRepository()
 
     private val _realTimeInfo = MutableLiveData<List<MsrstnAcctoRltmMesureDnsty.Response.Body.Item>>()
-    val realTimeInfo = _realTimeInfo
+    val realTimeInfo: LiveData<List<MsrstnAcctoRltmMesureDnsty.Response.Body.Item>> = _realTimeInfo
 
     private val _forecast = MutableLiveData<List<MinuDustFrcstDspth.Response.Body.Item>>()
-    val forecast = _forecast
+    val forecast: LiveData<List<MinuDustFrcstDspth.Response.Body.Item>> = _forecast
 
     private val _weekForecast = MutableLiveData<List<MinuDustWeekFrcstDspth.Response.Body.Item>>()
-    val weekForecast = _weekForecast
+    val weekForecast: LiveData<List<MinuDustWeekFrcstDspth.Response.Body.Item>> = _weekForecast
 
     fun getRealTimeInfo(queries: Map<String, String>) {
         viewModelScope.launch {

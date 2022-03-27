@@ -26,6 +26,7 @@ import com.wamufi.airpollution.databinding.ActivityMainBinding
 import com.wamufi.airpollution.ui.PopupDialogFragment
 import com.wamufi.airpollution.utils.Logger
 import com.wamufi.airpollution.viewmodels.DustyViewModel
+import com.wamufi.airpollution.viewmodels.StationViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     //    private lateinit var viewModelFactory: AirKoreaViewModelFactory
 //    private lateinit var viewModel: DustyViewModel
     private val viewModel: DustyViewModel by viewModels()
+    private val stationViewModel: StationViewModel by viewModels()
 
     private val locationManager by lazy {
         getSystemService(LOCATION_SERVICE) as LocationManager
@@ -97,14 +99,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        val realTimeMap = mapOf("returnType" to "json", "stationName" to "종로구", "dataTerm" to "DAILY")
-        viewModel.getRealTimeInfo(realTimeMap)
+//        val realTimeMap = mapOf("returnType" to "json", "stationName" to "종로구", "dataTerm" to "DAILY")
+//        viewModel.getRealTimeInfo(realTimeMap)
+//
+//        val forecastMap = mapOf("returnType" to "json", "searchDate" to today)
+//        viewModel.getForecast(forecastMap)
+//
+//        val weekForecastMap = mapOf("returnType" to "json", "searchDate" to today)
+//        viewModel.getWeekForecast(weekForecastMap)
 
-        val forecastMap = mapOf("returnType" to "json", "searchDate" to today)
-        viewModel.getForecast(forecastMap)
-
-        val weekForecastMap = mapOf("returnType" to "json", "searchDate" to today)
-        viewModel.getWeekForecast(weekForecastMap)
+        val stationsListMap = mapOf("returnType" to "json", "tmX" to "", "tmY" to "")
+//        stationViewModel.stationsList(stationsListMap)
     }
 
     // 위치 정보 가져오기
@@ -137,7 +142,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // region 권한
-    // GPS 권한 확인
+    // 권한 확인
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getLocationPermission() {
         when {
@@ -158,7 +163,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 카메라 권한 요청
+    // 권한 요청
     private fun requestLocationPermission() {
         Logger.d("request gps permission")
         val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
