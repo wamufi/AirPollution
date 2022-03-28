@@ -7,12 +7,18 @@ import androidx.lifecycle.viewModelScope
 import com.wamufi.airpollution.data.NearbyMsrstnList
 import com.wamufi.airpollution.repository.AirKoreaRepository
 import kotlinx.coroutines.launch
+import org.locationtech.proj4j.CRSFactory
+import org.locationtech.proj4j.CoordinateTransformFactory
+import org.locationtech.proj4j.ProjCoordinate
 
 class StationViewModel : ViewModel() {
     private val repository = AirKoreaRepository()
 
     private val _stationsList = MutableLiveData<List<NearbyMsrstnList.Response.Body.Item>>()
     val stationsList: LiveData<List<NearbyMsrstnList.Response.Body.Item>> = _stationsList
+
+    private val _coordinate = MutableLiveData<ProjCoordinate>()
+    val coordinate: LiveData<ProjCoordinate> = _coordinate
 
     fun getNearbyStationsList(queries: Map<String, String>) {
         viewModelScope.launch {
@@ -22,5 +28,18 @@ class StationViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    /**
+     * 좌표 변환 (WGS84 -> GRS80)
+     * @url https://www.osgeo.kr/17
+     */
+    fun transformCoordinate(latitude: Double, longitude: Double) {
+        val factory = CRSFactory()
+        val WGS84 = factory.createFromName("epsg:4326")
+        val GRS80 = factory.createFromName("epsg:5181")
+
+        val transform = CoordinateTransformFactory().createTransform(WGS84, GRS80)
+        _coordinate.value = transform.transform(ProjCoordinate(longitude, latitude), ProjCoordinate())
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 interface AirKoreaClient {
     companion object {
-        private const val BASE_URL = "http://apis.data.go.kr/B552584"
+        private const val BASE_URL = "http://apis.data.go.kr"
         private const val SERVICE_KEY = BuildConfig.SERVICE_KEY
 
         fun create(): AirKoreaService {

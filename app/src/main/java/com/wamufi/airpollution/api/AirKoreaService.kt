@@ -12,24 +12,25 @@ interface AirKoreaService {
     /**
      * 측정소별 실시간 측정정보 조회
      */
-    @GET("/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty")
+    @GET("/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty")
     suspend fun getRealTimeInfo(@QueryMap queries: Map<String, String>): Response<MsrstnAcctoRltmMesureDnsty>
 
     /**
      * 대기질 예보통보 조회
      */
-    @GET("/ArpltnInforInqireSvc/getMinuDustFrcstDspth")
+    @GET("/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth")
     suspend fun getForecast(@QueryMap queries: Map<String, String>): Response<MinuDustFrcstDspth>
 
     /**
      * 초미세먼지 주간예보 조회
      */
-    @GET("/ArpltnInforInqireSvc/getMinuDustWeekFrcstDspth")
+    @GET("/B552584/ArpltnInforInqireSvc/getMinuDustWeekFrcstDspth")
     suspend fun getWeekForecast(@QueryMap queries: Map<String, String>): Response<MinuDustWeekFrcstDspth>
 
     /**
      * 근접측정소 목록 조회
      */
-    @GET("/MsrstnInfoInqireSvc/getNearbyMsrstnList?&tmX=244148.546388&tmY=412423.75772")
+//    @GET("/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?&tmX=244148.546388&tmY=412423.75772")
+    @GET("/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList")
     suspend fun getNearbyStationsList(@QueryMap queries: Map<String, String>): Response<NearbyMsrstnList>
 }

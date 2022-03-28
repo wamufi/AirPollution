@@ -99,17 +99,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-//        val realTimeMap = mapOf("returnType" to "json", "stationName" to "종로구", "dataTerm" to "DAILY")
-//        viewModel.getRealTimeInfo(realTimeMap)
-//
 //        val forecastMap = mapOf("returnType" to "json", "searchDate" to today)
 //        viewModel.getForecast(forecastMap)
 //
 //        val weekForecastMap = mapOf("returnType" to "json", "searchDate" to today)
 //        viewModel.getWeekForecast(weekForecastMap)
 
-        val stationsListMap = mapOf("returnType" to "json", "tmX" to "", "tmY" to "")
-//        stationViewModel.stationsList(stationsListMap)
+        stationViewModel.coordinate.observe(this) {
+            val stationsListMap = mapOf("returnType" to "json", "tmX" to it.x.toString(), "tmY" to it.y.toString())
+            stationViewModel.getNearbyStationsList(stationsListMap)
+        }
+
+        stationViewModel.stationsList.observe(this) {
+            val realTimeMap = mapOf("returnType" to "json", "stationName" to it[0].stationName, "dataTerm" to "DAILY")
+            viewModel.getRealTimeInfo(realTimeMap)
+        }
     }
 
     // 위치 정보 가져오기
@@ -124,10 +128,12 @@ class MainActivity : AppCompatActivity() {
                 val latitude = location.latitude
                 val longitude = location.longitude
                 Logger.v("gps location: $latitude, $longitude")
+                stationViewModel.transformCoordinate(latitude, longitude)
             } else if (networkLocation != null) {
                 val latitude = networkLocation.latitude
                 val longitude = networkLocation.longitude
                 Logger.v("network location: $latitude, $longitude")
+                stationViewModel.transformCoordinate(latitude, longitude)
             }
         } else {
             Logger.v("gps disabled")
