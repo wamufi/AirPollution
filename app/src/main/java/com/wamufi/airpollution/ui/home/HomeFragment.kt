@@ -13,6 +13,7 @@ import com.wamufi.airpollution.MainActivity
 import com.wamufi.airpollution.databinding.FragmentHomeBinding
 import com.wamufi.airpollution.utils.Logger
 import com.wamufi.airpollution.viewmodels.DustyViewModel
+import com.wamufi.airpollution.viewmodels.StationViewModel
 
 class HomeFragment : Fragment() {
 
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: DustyViewModel by activityViewModels()
+    private val stationViewModel: StationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +38,11 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         viewModel.realTimeInfo.observe(viewLifecycleOwner) {
-            Logger.v(it.toString())
             binding.dusty = it[0]
+        }
+
+        stationViewModel.stationsList.observe(viewLifecycleOwner) {
+            binding.station = it[0]
         }
 
         return root

@@ -6,6 +6,10 @@
         <variable
             name="dusty"
             type="com.wamufi.airpollution.data.MsrstnAcctoRltmMesureDnsty.Response.Body.Item" />
+
+        <variable
+            name="station"
+            type="com.wamufi.airpollution.data.NearbyMsrstnList.Response.Body.Item" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="지역"
+                android:text="@{station.stationName}"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 

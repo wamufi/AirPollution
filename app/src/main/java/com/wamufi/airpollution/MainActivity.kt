@@ -27,6 +27,7 @@ import com.wamufi.airpollution.ui.PopupDialogFragment
 import com.wamufi.airpollution.utils.Logger
 import com.wamufi.airpollution.viewmodels.DustyViewModel
 import com.wamufi.airpollution.viewmodels.StationViewModel
+import org.locationtech.proj4j.ProjCoordinate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -111,8 +112,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         stationViewModel.stationsList.observe(this) {
-            val realTimeMap = mapOf("returnType" to "json", "stationName" to it[0].stationName, "dataTerm" to "DAILY")
+            val realTimeMap = mapOf("returnType" to "json", "stationName" to it[0].stationName, "dataTerm" to "DAILY", "ver" to "1.3")
             viewModel.getRealTimeInfo(realTimeMap)
+        }
+
+        val tmMap = mapOf("returnType" to "json", "umdName" to "종로")
+        stationViewModel.getTMByAddr(tmMap)
+        stationViewModel.tmList.observe(this) {
+            val projCoordinate = ProjCoordinate(it[0].tmX.toDouble(), it[0].tmY.toDouble())
+            stationViewModel._coordinate.value = projCoordinate
         }
     }
 

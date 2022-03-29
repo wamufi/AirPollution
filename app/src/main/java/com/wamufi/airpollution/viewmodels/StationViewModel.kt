@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wamufi.airpollution.data.NearbyMsrstnList
+import com.wamufi.airpollution.data.TMStdrCrdnt
 import com.wamufi.airpollution.repository.AirKoreaRepository
 import kotlinx.coroutines.launch
 import org.locationtech.proj4j.CRSFactory
@@ -17,7 +18,10 @@ class StationViewModel : ViewModel() {
     private val _stationsList = MutableLiveData<List<NearbyMsrstnList.Response.Body.Item>>()
     val stationsList: LiveData<List<NearbyMsrstnList.Response.Body.Item>> = _stationsList
 
-    private val _coordinate = MutableLiveData<ProjCoordinate>()
+    private val _tmList = MutableLiveData<List<TMStdrCrdnt.Response.Body.Item>>()
+    val tmList: LiveData<List<TMStdrCrdnt.Response.Body.Item>> = _tmList
+
+    val _coordinate = MutableLiveData<ProjCoordinate>()
     val coordinate: LiveData<ProjCoordinate> = _coordinate
 
     fun getNearbyStationsList(queries: Map<String, String>) {
@@ -25,6 +29,16 @@ class StationViewModel : ViewModel() {
             repository.getNearbyStationsList(queries).apply {
                 if (isSuccessful) {
                     _stationsList.value = body()?.response?.body?.items
+                }
+            }
+        }
+    }
+
+    fun getTMByAddr(queries: Map<String, String>) {
+        viewModelScope.launch {
+            repository.getTMByAddr(queries).apply {
+                if (isSuccessful) {
+                    _tmList.value = body()?.response?.body?.items
                 }
             }
         }
