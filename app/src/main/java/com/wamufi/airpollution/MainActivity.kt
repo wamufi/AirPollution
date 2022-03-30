@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,6 +25,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wamufi.airpollution.databinding.ActivityMainBinding
 import com.wamufi.airpollution.ui.PopupDialogFragment
+import com.wamufi.airpollution.ui.StationListActivity
 import com.wamufi.airpollution.utils.Logger
 import com.wamufi.airpollution.viewmodels.DustyViewModel
 import com.wamufi.airpollution.viewmodels.StationViewModel
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     //    private lateinit var viewModelFactory: AirKoreaViewModelFactory
-//    private lateinit var viewModel: DustyViewModel
+    //    private lateinit var viewModel: DustyViewModel
     private val viewModel: DustyViewModel by viewModels()
     private val stationViewModel: StationViewModel by viewModels()
 
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -75,7 +78,9 @@ class MainActivity : AppCompatActivity() {
 
         getData()
 
-        getLocationPermission()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getLocationPermission()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
