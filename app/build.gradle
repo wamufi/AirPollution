@@ -62,6 +62,9 @@ dependencies {
     // Proj4J
     implementation 'org.locationtech.proj4j:proj4j:1.1.5'
 
+    // Material Design 3
+    implementation 'com.google.android.material:material:1.6.0-beta01'
+
     // Coroutines
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
